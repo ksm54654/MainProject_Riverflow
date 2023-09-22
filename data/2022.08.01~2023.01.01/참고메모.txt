@@ -1,0 +1,38 @@
+훈련된 딥러닝 모델 저장
+이제 훈련된 딥러닝 모델을 다음 명령을 이용해 저장한다.
+from keras.models import load_model
+
+classifier.save('DL_CNN_cat_dog.h5')
+
+from google.colab import files
+files.download('DL_CNN_cat_dog.h5')  # from colab to browser download
+
+훈련된 딥러닝 모델 불러와 사용하기
+저장된 딥러닝 모델은 다음과 같이 간단히 로딩해 사용할 수 있다.
+from keras.models import load_model
+model = load_model('DL_CNN_cat_dog.h5')
+
+똑같은 예측 소스코드로 실행해 보면 동일한 결과를 확인할 수 있다.
+import numpy as np
+import matplotlib.pyplot as plt
+
+from keras.preprocessing import image
+test_image1 = image.load_img('random4.jpg', target_size = (64,64))
+test_image2 = image.img_to_array(test_image1)
+test_image2 = np.expand_dims(test_image2, axis = 0)
+result = model.predict(test_image2)
+training_set.class_indices
+if result[0][0] >= 0.5:
+  prediction = 'dog'
+else:
+  prediction = 'cat'
+
+origin_image = image.load_img('random4.jpg')
+plt.imshow(origin_image)
+print('  => predict = ', result[0][0], ', class = ', prediction)
+
+
+참고로 저장된 모델은 스마트폰, 웹 기반 앱에서 로딩해 사용할 수 있다. 관심이 있다면 다음 링크를 참고한다.
+Importing a Keras model into TensorFlow.js
+TensorFlow Android Camera Demo
+Running Keras models on iOS with CoreML
